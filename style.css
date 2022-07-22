@@ -128,7 +128,7 @@ body{
     border: 1px solid #5372f0;
 }
 
-@media screen and(max-width:760px){
+@media screen and(max-width:750px){
     .container{
       padding:25px;
   }
@@ -142,9 +142,15 @@ body{
     .wrapper .preview-img{
       width:100%;
       margin:0 0 15px;
-   }
+   };
 
-   @media screen and(max-width:500px){
+   @media screen and (max-width:500px){
+    .container{
+        padding:25px;
+    }
+    .container .wrapper{
+        flex-wrap:wrap-reverse;
+    }
     .controls button{
       width:100%;
       margin-bottom:10px;

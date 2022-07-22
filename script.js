@@ -4,11 +4,17 @@ filterName = document.querySelector('.filter-info .name'),
 filterValue = document.querySelector('.filter-info .value'),
 filterSlider = document.querySelector('.slider input'),
 previewImg = document.querySelector('.preview-img img'),
-filterOptions = document.querySelectorAll('.filter button');
+filterOptions = document.querySelectorAll('.filter button'),
+rotateOptons = document.querySelectorAll('.rotate button')
 
 
 let brightness = 100, saturation =100, inversion= 0, grayscale = 0;
+let rotate = 0;
 
+const applyFilter = () =>{
+    previewImg.style.transform = `rotate(${rotate}deg)`;
+    previewImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+}
 
 const loadImage = () => {
     let file = fileInput.files[0]; // getting user selectef file
@@ -63,8 +69,17 @@ const updateFilter = () => {
     }else {(selectedFilter.id === "grayscale")
         grayscale = filterSlider.value;}
 
+        applyFilter ();
     
 }
+rotateOptons.forEach(option => {
+    option.addEventListener("click", () =>{
+        if(option.id === "left"){
+            rotate -= 90;
+        }
+        applyFilter ();
+    })
+})
 
 
 
