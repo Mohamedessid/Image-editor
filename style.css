@@ -94,6 +94,7 @@ body{
 .wrapper .preview-img{
     margin-left: 20px;
     flex-grow: 1;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,36 +129,38 @@ body{
     border: 1px solid #5372f0;
 }
 
-@media screen and(max-width:750px){
+
+
+
+
+
+
+@media screen and (max-width:760px) {
     .container{
       padding:25px;
   }
-    }
+    
     .container .wrapper{
-        flex-wrap:wrap-reverse;
+        flex-wrap: wrap-reverse;
     }
     .wrapper .editor-panel{
-      width:100%;
+      width: 100%;
     }
     .wrapper .preview-img{
-      width:100%;
-      margin:0 0 15px;
-   };
+      width: 100%;
+      margin: 0 0 15px;
+   }
+}
 
    @media screen and (max-width:500px){
-    .container{
-        padding:25px;
-    }
-    .container .wrapper{
-        flex-wrap:wrap-reverse;
-    }
     .controls button{
-      width:100%;
-      margin-bottom:10px;
-   }
+        width:100%;
+        margin-bottom:10px;
+     }
     .controls .row{
       width:100%;
    }
-    .controls .row .save-img{
-      margin-left:0px;
-    }}
+    .controls .row .save{
+      margin-left: 0px ;
+    }
+}

@@ -5,14 +5,17 @@ filterValue = document.querySelector('.filter-info .value'),
 filterSlider = document.querySelector('.slider input'),
 previewImg = document.querySelector('.preview-img img'),
 filterOptions = document.querySelectorAll('.filter button'),
-rotateOptons = document.querySelectorAll('.rotate button')
+rotateOptons = document.querySelectorAll('.rotate button'),
+resetFilterBtn = document.querySelector('.reset-filter'),
+saveImgBtn = document.querySelector('.save');
+
 
 
 let brightness = 100, saturation =100, inversion= 0, grayscale = 0;
-let rotate = 0;
+let rotate = 0, flipHorizontal = 1, flipVertical = 1;
 
 const applyFilter = () =>{
-    previewImg.style.transform = `rotate(${rotate}deg)`;
+    previewImg.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`;
     previewImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
 }
 
@@ -76,14 +79,50 @@ rotateOptons.forEach(option => {
     option.addEventListener("click", () =>{
         if(option.id === "left"){
             rotate -= 90;
+        } else if (option.id === "right"){
+            rotate += 90;
+        } else if (option.id === "horizontal"){
+            flipHorizontal = flipHorizontal === 1 ? -1 : 1;
+        } else {
+            flipVertical = flipVertical === 1 ? -1 : 1;
         }
         applyFilter ();
     })
 })
 
+const resetFilter = () => {
+     brightness = 100, saturation =100, inversion= 0, grayscale = 0;
+     rotate = 0, flipHorizontal = 1, flipVertical = 1;
+     previewImg.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`;
+previewImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+    filterOptions[0].click();
+     applyFilter ();
 
+}
+
+const saveImage = () => {
+
+    const canvas=document.createElement("canvas");// creating canvas element
+    const ctx=canvas.getContext("2d");// canvas.getContext returnadrawing context on the canvas
+    canvas.width=previewImg.naturalWidth;// setting canvas width to actual image width
+    canvas.height=previewImg.naturalHeight;// setting canvas height to actual image height
+    // applying user selected filters to canavas filter
+    ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+    ctx.translate(canvas.width / 2,canvas.height / 2);// translating canvas from center
+    if(rotate !==0){
+        ctx.rotate(rotate * Math.PI / 180)
+    }
+    ctx.scale(flipHorizontal,flipVertical);// flip canvas,horizontally/vertically
+    ctx.drawImage(previewImg,-canvas.width/2,-canvas.height/2,canvas.width,canvas.height);
+    const link = document.createElement("a");
+    link.download= "image.jpg";
+    link.href = canvas.toDataURL();
+    link.click();
+}
 
 
 fileInput.addEventListener("change", loadImage);
 filterSlider.addEventListener("input", updateFilter);
 chooseImageBtn.addEventListener("click", () => fileInput.click());
+resetFilterBtn.addEventListener("click", resetFilter);
+saveImgBtn.addEventListener("click", saveImage);
